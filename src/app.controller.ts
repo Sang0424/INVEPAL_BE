@@ -1,5 +1,25 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { AppService } from './app.service';
+
+interface Stock{
+  'Code':string
+  'ISU_CD':string
+  'Name':string
+  'Market':string
+  'Dept':string
+  'Close':string
+  'ChangeCode':string
+  'Changes':number
+  'ChagesRatio':number
+  'Open':number
+  'High':number
+  'Low':number
+  'Volume':number
+  'Amount':number
+  'Marcap':number
+  'Stocks':number
+  'MarketId':string
+}
 
 @Controller('api')
 export class AppController {
@@ -20,4 +40,12 @@ export class AppController {
   async getIndice():Promise<string>{
     return this.appService.getIndice()
   }
+  @Get('/stocks')
+  async getTodayStocksInfo(@Query('page') page:number,@Query('limit') limit:number):Promise<{today_stocks:Stock[],stocksLen:number}>{
+    return this.appService.getTodayStocksInfo(page,limit)
+  }
+  // @Get('/stock')
+  // async getStockInfo(@Query('code') code:string){
+  //   return this.appService.getStockInfo(code);
+  // }
 }
